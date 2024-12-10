@@ -1,0 +1,40 @@
+import random
+
+# Generates a list of "locations" in a fictional galaxy
+# Starts with numeric IDs and later maps them to more cooler star names.
+def generate_locations(n):
+    return list(range(1, n+1))
+
+# Converts a location ID into a fun star system name
+def id_to_star_name(x):
+    # A name generator combining letters and the number
+    prefix = random.choice(["Alpha", "Zeta", "Nova", "Delta", "Omega"])
+    return f"{prefix}-{x}"
+
+# Estimates travel time to a star system based on its ID
+def travel_time(x):
+    return x * random.uniform(0.5, 2.0)
+
+# filters out star systems that take too long to reach
+def is_reachable(time):
+    return time < 10.0
+
+# Creates a list of locations
+locations = generate_locations(10)
+
+# Map IDs to star names
+star_names = list(map(id_to_star_name, locations))
+
+# For each star name figures out travel times (reusing the location IDs for timing)
+times = list(map(travel_time, locations))
+
+# Pairs up star names and times for clarity
+star_data = list(zip(star_names, times))
+
+# Filters out the ones that take too long
+reachable_stars = list(filter(lambda s: is_reachable(s[1]), star_data))
+
+# Prints a nicely formatted travel itinerary
+print("Your Interstellar Travel Itinerary:")
+for star, t in reachable_stars:
+    print(f" - {star}: {t:.2f} hours")
